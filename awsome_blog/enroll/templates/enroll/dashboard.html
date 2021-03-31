@@ -1,0 +1,41 @@
+{% extends 'enroll/base.html'%}
+{% load static %}
+{% block content%}
+<h1 class="text-center">Your Dashboard</h1>
+ <div class="container" style="padding-top:10px">
+     <a href="{% url 'addpost' %}" type="submit" class="btn btn-success btn-sm">Add Post</a>
+ </div>
+ {% if userdata %}
+  <div class="col-sm-10">
+      <table class="table table-hover bg-white">
+          <thead>
+           <tr class="text-centre">
+              <th scope="col" width="30%">Title</th>
+               <th scope="col" width="60%">Description</th>
+               <th scope="col" width="10%">Action</th>
+           </tr>
+          </thead>
+          <tbody>
+           {% for post in userdata %}
+           <tr>
+               <td>{{post.titel}}</td>
+               <td>{{post.desc}}</td>
+               <td class="text-center">
+                   <a href="{% url 'updatepost' post.id %}" class="btn btn-warning btn-sm">Edit</a>
+                   <form action="{% url 'delete' post.id %}" method="post" class="d-inline ">
+                       {% csrf_token %}
+                       <input type="submit" value="delete" class="btn btn-danger btn-sm my-2">
+                   </form>
+               </td>
+           </tr>
+            {% endfor %}
+          </tbody>
+
+
+      </table>
+      {% else %}
+      <h1>you don't have any post</h1>
+      {% endif %}
+
+  </div>
+{% endblock %}
